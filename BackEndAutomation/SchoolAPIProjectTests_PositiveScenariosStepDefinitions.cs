@@ -62,6 +62,7 @@ namespace BackEndAutomation.Tests.BBDTests
             createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", "Class1", math);
 
             // check that the response is 200 OK  -- in progress
+            // need to add a https://docs.reqnroll.net/latest/automation/datatable-helpers.html  and read the rest from the Automation Features section 
         }
 
         [Then("class is created successfully")]
