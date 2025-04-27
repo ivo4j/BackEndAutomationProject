@@ -61,7 +61,7 @@ namespace BackEndAutomation.Tests.BBDTests
             string[] subjects = { ""};
             createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", "Class1", math);
 
-            // check that the response is 200 OK
+            // check that the response is 200 OK  -- in progress
         }
 
         [Then("class is created successfully")]
