@@ -58,8 +58,8 @@ namespace BackEndAutomation.Tests.BBDTests
 
             // create class via API call
             string token = extractResponseData.ExtractLoggedInUserToken(userLoginResponse.Content);
-            string[] subjects = { ""};
-            createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", "Class1", math);
+            string[] subjects = { "Math", "English", "Literature" };
+            createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", "Class1", subjects, token);
 
             // check that the response is 200 OK  -- in progress
             // need to add a https://docs.reqnroll.net/latest/automation/datatable-helpers.html  and read the rest from the Automation Features section 
@@ -68,12 +68,21 @@ namespace BackEndAutomation.Tests.BBDTests
         [Then("class is created successfully")]
         public void ThenClassIsCreatedSuccessfully()
         {
-            throw new PendingStepException();
+            if (createClassResponse.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                _test.Log(Status.Info, "The class is successfully created: " + createClassResponse.Content);
+            }
+            else
+            {
+                _test.Log(Status.Fail, "The class is not created: " + createClassResponse.Content);
+                Assert.Fail("The class is not created: " + createClassResponse.Content);
+            }
         }
 
         [When("add student {string} to class {string} API call with")]
-        public void WhenAddStudentToClassAPICallWith(string p0, string p1)
+        public void WhenAddStudentToClassAPICallWith(string studentName, string className) 
         {
+            //  make the request first with Postman and then convert it to RestSharp
             throw new PendingStepException();
         }
 
