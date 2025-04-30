@@ -13,7 +13,6 @@ Scenario: Login with API call with parametrized steps
 Scenario Outline: Teacher creates a class with subjects 
 	Given login data is being prepared
 	And execute login API call with "teacher1" username and "teacher1" password
-	And user data for logged in user is returned  # Token is received
 	When execute create class "Class1" API call with "<subject>"
 	Then class is created successfully
 	Examples: 
