@@ -27,7 +27,7 @@ namespace BackEndAutomation.Rest.Calls
                 Timeout = TimeSpan.FromSeconds(120),
             };
             RestClient client = new RestClient(options);
-            RestRequest request = new RestRequest("/class/create", Method.Post);
+            RestRequest request = new RestRequest("/classes/create", Method.Post);
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", $"Bearer {token}");
             string body = @"{""name"":""" + className + @""",""subject"":""" + subject + @"""}";

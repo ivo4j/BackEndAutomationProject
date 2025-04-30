@@ -6,14 +6,13 @@ using Reqnroll;
 using RestSharp;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Reqnroll.Assist;
 
 namespace BackEndAutomation.Tests.BBDTests
 {
     [Binding]
     public class SchoolAPIProjectTests_PositiveScenariosStepDefinitions
     {
-
-
         private RestCalls restCalls = new RestCalls();
         private ResponseDataExtractors extractResponseData = new ResponseDataExtractors();
 
@@ -23,20 +22,28 @@ namespace BackEndAutomation.Tests.BBDTests
         private List<double> numbers = new List<double>();
         private string response;
 
-        [Given("login data is prepared")]
-        [When("login data is prepared")]
+        public SchoolAPIProjectTests_PositiveScenariosStepDefinitions(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+            _test = scenarioContext.Get<ExtentTest>("ExtentTest");
+        }
+
+        [Given("login data is being prepared")]
+        [When("login data is being prepared")]
         public void GivenLoginDataIsPrepared()
         {
             //Console.WriteLine("Login data is prepared");
             _test.Log(Status.Info, "Login data is prepared");
         }
 
+        [When("user data for logged in user is returned  # Token is received")]
         [Then("user data for logged in user is returned  # Token is received")]
         public void ThenUserDataForLoggedInUserIsReturnedTokenIsReceived()
         {
             if (userLoginResponse.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _test.Log(Status.Info, "User is logged in: " + userLoginResponse.Content);
+                
             }
             else
             {
@@ -50,16 +57,19 @@ namespace BackEndAutomation.Tests.BBDTests
         {
             userLoginResponse = restCalls.LoginCall("https://schoolprojectapi.onrender.com/", username, password);
             _test.Log(Status.Info, $@"Login call is executed with ""{username}"" username and ""{password}"" password");
+            string tokenValue = extractResponseData.ExtractLoggedInUserToken(userLoginResponse.Content, "access_token");
+
+            _scenarioContext.Add("UserToken", tokenValue);
         }
 
         [When("execute create class {string} API call with {string}")]
-        public void WhenExecuteCreateClassAPICallWith(string className, string math)
+        public void WhenExecuteCreateClassAPICallWith(string className, string[] subjects)
         {
 
             // create class via API call
             string token = extractResponseData.ExtractLoggedInUserToken(userLoginResponse.Content);
-            string[] subjects = { "Math", "English", "Literature" };
-            createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", "Class1", subjects, token);
+           // string[] subjects = { "Math", "English", "Literature" };
+            createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", "Class1", subjects, (string)_scenarioContext["UserToken"]);
 
             // check that the response is 200 OK  -- in progress
             // need to add a https://docs.reqnroll.net/latest/automation/datatable-helpers.html  and read the rest from the Automation Features section 

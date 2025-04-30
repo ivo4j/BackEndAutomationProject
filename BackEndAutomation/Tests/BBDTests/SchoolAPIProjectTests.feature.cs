@@ -101,7 +101,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 await this.ScenarioStartAsync();
 #line 8
- await testRunner.GivenAsync("login data is prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("login data is being prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 9
  await testRunner.WhenAsync("execute login API call with \"admin1\" username and \"admin123\" password", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -135,15 +135,18 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 await this.ScenarioStartAsync();
 #line 14
- await testRunner.GivenAsync("login data is prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("login data is being prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 15
  await testRunner.AndAsync("execute login API call with \"teacher1\" username and \"teacher1\" password", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 16
- await testRunner.WhenAsync(string.Format("execute create class \"Class1\" API call with \"{0}\"", subject), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.AndAsync("user data for logged in user is returned  # Token is received", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 17
+ await testRunner.WhenAsync(string.Format("execute create class \"Class1\" API call with \"{0}\"", subject), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 18
  await testRunner.ThenAsync("class is created successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -157,7 +160,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Teacher adds a student to the class", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 24
+#line 25
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -167,16 +170,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 25
- await testRunner.GivenAsync("login data is prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 26
- await testRunner.AndAsync("execute login API call with \"teacher1\" username and \"teacher1\" password", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.GivenAsync("login data is being prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 27
- await testRunner.WhenAsync("add student \"Peter Ivanov\" to class \"Class1\" API call with", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.AndAsync("execute login API call with \"teacher1\" username and \"teacher1\" password", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 28
+ await testRunner.WhenAsync("add student \"Peter Ivanov\" to class \"Class1\" API call with", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 29
  await testRunner.ThenAsync("student is added successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -194,7 +197,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("mark", mark);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Teacher adds marks for the student", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 31
+#line 32
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -204,16 +207,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 32
- await testRunner.GivenAsync("login data is prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 33
- await testRunner.AndAsync("execute login API call with \"teacher1\" username and \"teacher1\" password", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.GivenAsync("login data is being prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 34
- await testRunner.WhenAsync(string.Format("add marks for student \"Peter Ivanov\" in class \"Class1\" API call with \"{0}\"", mark), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.AndAsync("execute login API call with \"teacher1\" username and \"teacher1\" password", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 35
+ await testRunner.WhenAsync(string.Format("add marks for student \"Peter Ivanov\" in class \"Class1\" API call with \"{0}\"", mark), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 36
  await testRunner.ThenAsync("marks are added successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -227,7 +230,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Parent sees the marks of their child", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 43
+#line 44
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -237,16 +240,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 44
- await testRunner.GivenAsync("login data is prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 45
- await testRunner.AndAsync("execute login API call with \"parent1\" username and \"parent1\" password", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.GivenAsync("login data is being prepared", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 46
- await testRunner.WhenAsync("get marks for student \"Peter Ivanov\" in class \"Class1\" API call with", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.AndAsync("execute login API call with \"parent1\" username and \"parent1\" password", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 47
+ await testRunner.WhenAsync("get marks for student \"Peter Ivanov\" in class \"Class1\" API call with", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 48
  await testRunner.ThenAsync("marks are received successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
