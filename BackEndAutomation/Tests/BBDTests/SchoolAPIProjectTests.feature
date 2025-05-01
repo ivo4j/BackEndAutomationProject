@@ -10,16 +10,12 @@ Scenario: Login with API call with parametrized steps
 	Then user data for logged in user is returned  # Token is received
 
 	# login as a teacher user, 
-Scenario Outline: Teacher creates a class with subjects 
+Scenario: Teacher creates a class with subject 
 	Given login data is being prepared
 	And execute login API call with "teacher1" username and "teacher1" password
-	When execute create class "Class1" API call with "<subject>"
+	When execute create class "Class1" API call with "Math"
 	Then class is created successfully
-	Examples: 
-	| subject    |
-	| Math       | 
-	| English    | 
-	| Literature | 
+	 
 
 Scenario: Teacher adds a student to the class
 	Given login data is being prepared
@@ -28,22 +24,17 @@ Scenario: Teacher adds a student to the class
 	Then student is added successfully
 
 
-Scenario Outline: Teacher adds marks for the student
+Scenario: Teacher adds marks for the student
 	Given login data is being prepared
 	And execute login API call with "teacher1" username and "teacher1" password
-	When add marks for student "Peter Ivanov" in class "Class1" API call with "<mark>"
+	When add marks for student "Peter Ivanov" for subject "Math" API call with 5
 	Then marks are added successfully
-Examples:
-	| mark |
-	| 5    |
-	| 6    |
-	| 6    |
 
 
 Scenario: Parent sees the marks of their child
 	Given login data is being prepared
 	And execute login API call with "parent1" username and "parent1" password
-	When get marks for student "Peter Ivanov" in class "Class1" API call with
+	When get marks for student "Peter Ivanov" API call
 	Then marks are received successfully
 
 

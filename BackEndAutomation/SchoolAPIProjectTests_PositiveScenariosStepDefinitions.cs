@@ -18,7 +18,7 @@ namespace BackEndAutomation.Tests.BBDTests
 
         private readonly ScenarioContext _scenarioContext;
         private ExtentTest _test;
-        private RestResponse userLoginResponse, createClassResponse, addStudentResponse, addMarksResponse;
+        private RestResponse userLoginResponse, createClassResponse, addStudentResponse, addMarksResponse, getMarksResponse;
         private List<double> numbers = new List<double>();
         private string response;
 
@@ -62,16 +62,11 @@ namespace BackEndAutomation.Tests.BBDTests
         }
 
         [When("execute create class {string} API call with {string}")]
-        public void WhenExecuteCreateClassAPICallWith(string className, string[] subjects)
+        public void WhenExecuteCreateClassAPICallWith(string className, string subject)
         {
-
-            // create class via API call
-
-            createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", className, subjects, (string)_scenarioContext["UserToken"]);
-            _test.Log(Status.Info, $@"Class is created with ""{className}"" name and ""{subjects}"" subjects");
-
-            // check that the response is 200 OK  -- in progress
-            // need to add a https://docs.reqnroll.net/latest/automation/datatable-helpers.html  and read the rest from the Automation Features section 
+            createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", className, subject, (string)_scenarioContext["UserToken"]);
+            _test.Log(Status.Info, $@"Class is created with ""{className}"" name and ""{subject}"" subjects");
+                   
         }
 
         [Then("class is created successfully")]
@@ -91,7 +86,6 @@ namespace BackEndAutomation.Tests.BBDTests
         [When("add student {string} to class {string} API call with")]
         public void WhenAddStudentToClassAPICallWith(string studentName, string className)
         {
-            //  make the request first with Postman and then convert it to RestSharp
             addStudentResponse = restCalls.AddStudentCall("https://schoolprojectapi.onrender.com", studentName, className, (string)_scenarioContext["UserToken"]);
             string studentID = extractResponseData.ExtractStudentId(userLoginResponse.Content);
             _scenarioContext.Add("Student_ID", studentID);
@@ -112,11 +106,13 @@ namespace BackEndAutomation.Tests.BBDTests
             }
         }
 
-        [When("add marks for student {string} in class {string} API call with {string}")]
-        public void WhenAddMarksForStudentInClassAPICallWith(string studentName, string className, string[] marks)
+        
+        [When("add marks for student {string} for subject {string} API call with {int}")]
+        public void WhenAddMarksForStudentInClassAPICallWith(string studentName, string subject, int mark)
         {
-            addMarksResponse = restCalls.AddMarksCall("https://schoolprojectapi.onrender.com", studentName, className, (string)_scenarioContext["student_id"]);
-            _test.Log(Status.Info, $@"Marks are added for ""{studentName}"" in ""{className}"" class");
+            studentName = (string)_scenarioContext["Student_ID"];
+            addMarksResponse = restCalls.AddMarksCall("https://schoolprojectapi.onrender.com", studentName, subject, mark, (string)_scenarioContext["UserToken"]);
+            _test.Log(Status.Info, $@"Marks are added for ""{studentName}"" for ""{subject}"" subject");
         }
 
         [Then("marks are added successfully")]
@@ -133,16 +129,26 @@ namespace BackEndAutomation.Tests.BBDTests
             }
         }
 
-        [When("get marks for student {string} in class {string} API call with")]
-        public void WhenGetMarksForStudentInClassAPICallWith(string p0, string p1)
+        [When("get marks for student {string} API call")]
+        public void WhenGetMarksForStudentInClassAPICallWith(string studentName)
         {
-            throw new PendingStepException();
+            studentName = (string)_scenarioContext["Student_ID"];
+            getMarksResponse = restCalls.GetMarksCall("https://schoolprojectapi.onrender.com", studentName, (string)_scenarioContext["UserToken"]);
+            _test.Log(Status.Info, $@"Get marks for ""{studentName}""");
         }
 
         [Then("marks are received successfully")]
         public void ThenMarksAreReceivedSuccessfully()
         {
-            throw new PendingStepException();
+            if (getMarksResponse.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                _test.Log(Status.Info, "The marks successfully recevied: " + getMarksResponse.Content);
+            }
+            else
+            {
+                _test.Log(Status.Fail, "The marks are not received: " + getMarksResponse.Content);
+                Assert.Fail("The marks are not received: " + getMarksResponse.Content);
+            }
         }
     }
 }

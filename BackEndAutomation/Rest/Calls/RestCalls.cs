@@ -21,7 +21,7 @@ namespace BackEndAutomation.Rest.Calls
             return response;
         }
 
-        public RestResponse CreateClassCall(string url, string className, string[] subject, string token)
+        public RestResponse CreateClassCall(string url, string className, string subject, string token)
         {
             RestClientOptions options = new RestClientOptions(url)
             {
@@ -51,31 +51,40 @@ namespace BackEndAutomation.Rest.Calls
             request.AddHeader("Authorization", $"Bearer {token}");
             string body = @"{""name"":""" + studentName + @""",""class_id"":""" + className + @"""}";
             request.AddStringBody(body, DataFormat.Json);
-            //request.AlwaysMultipartFormData = true;
-            //request.AddParameter("name", studentName);
-            //request.AddParameter("class_id", className);
             RestResponse response = client.Execute(request);
             return response;
 
         }
 
-        public RestResponse AddMarksCall(string url, string studentName, string className, string token)
+        public RestResponse AddMarksCall(string url, string studentName, string subject, int grade, string token)
         {
-
-
             RestClientOptions options = new RestClientOptions(url)
             {
                 Timeout = TimeSpan.FromSeconds(120),
             };
-            var client = new RestClient(options);
-            var request = new RestRequest("/classes/add_student", Method.Post);
+            RestClient client = new RestClient(options);
+            RestRequest request = new RestRequest("/grades/add", Method.Put);
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", $"Bearer {token}");
-            string body = @"{""name"":""" + studentName + @""",""class_id"":""" + className + @"""}";
+            string body = @"{""student_id"":""" + studentName + @""",""subject"":""" + subject + @""", """"grade"""":"""""" + grade + @""""""}";
             request.AddStringBody(body, DataFormat.Json);
-            //request.AlwaysMultipartFormData = true;
-            //request.AddParameter("name", studentName);
-            //request.AddParameter("class_id", className);
+            RestResponse response = client.Execute(request);
+            return response;
+
+        }
+
+        public RestResponse GetMarksCall(string url, string studentName, string token)
+        {
+            RestClientOptions options = new RestClientOptions(url)
+            {
+                Timeout = TimeSpan.FromSeconds(120),
+            };
+            RestClient client = new RestClient(options);
+            RestRequest request = new RestRequest("/grades/student", Method.Get);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", $"Bearer {token}");
+            string body = @"{""student_id"":""" + studentName + @"""}";
+            request.AddStringBody(body, DataFormat.Json);
             RestResponse response = client.Execute(request);
             return response;
 
