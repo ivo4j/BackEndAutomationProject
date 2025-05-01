@@ -45,6 +45,28 @@ namespace BackEndAutomation.Rest.Calls
             {
                 Timeout = TimeSpan.FromSeconds(120),
             };
+            RestClient client = new RestClient(options);
+            RestRequest request = new RestRequest("/classes/add_student", Method.Post);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", $"Bearer {token}");
+            string body = @"{""name"":""" + studentName + @""",""class_id"":""" + className + @"""}";
+            request.AddStringBody(body, DataFormat.Json);
+            //request.AlwaysMultipartFormData = true;
+            //request.AddParameter("name", studentName);
+            //request.AddParameter("class_id", className);
+            RestResponse response = client.Execute(request);
+            return response;
+
+        }
+
+        public RestResponse AddMarksCall(string url, string studentName, string className, string token)
+        {
+
+
+            RestClientOptions options = new RestClientOptions(url)
+            {
+                Timeout = TimeSpan.FromSeconds(120),
+            };
             var client = new RestClient(options);
             var request = new RestRequest("/classes/add_student", Method.Post);
             request.AddHeader("Content-Type", "application/json");

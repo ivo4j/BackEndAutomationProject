@@ -11,6 +11,12 @@ namespace BackEndAutomation.Rest.DataManagement
             return jsonObject[jsonIdentfier]?.ToString();
         }
 
+        public string ExtractStudentId(string jsonResponse)
+        {
+            var jsonObject = JObject.Parse(jsonResponse);
+            return jsonObject["student_id"]?.ToString();
+        }
+
         public int ExtractUserId(string jsonResponse)
         {
             var jsonObject = JObject.Parse(jsonResponse);
