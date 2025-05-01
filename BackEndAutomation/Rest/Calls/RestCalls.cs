@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using System.Reactive.Subjects;
 
 namespace BackEndAutomation.Rest.Calls
 {
@@ -35,6 +36,29 @@ namespace BackEndAutomation.Rest.Calls
             RestResponse response = client.Execute(request);
             return response;
         }
+
+        public RestResponse AddStudentCall(string url, string studentName, string className, string token)
+        {
+
+
+            RestClientOptions options = new RestClientOptions(url)
+            {
+                Timeout = TimeSpan.FromSeconds(120),
+            };
+            var client = new RestClient(options);
+            var request = new RestRequest("/classes/add_student", Method.Post);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", $"Bearer {token}");
+            string body = @"{""name"":""" + studentName + @""",""class_id"":""" + className + @"""}";
+            request.AddStringBody(body, DataFormat.Json);
+            //request.AlwaysMultipartFormData = true;
+            //request.AddParameter("name", studentName);
+            //request.AddParameter("class_id", className);
+            RestResponse response = client.Execute(request);
+            return response;
+
+        }
+
 
         public RestResponse GetUserPageInformationCall(string url, string userId, string token)
         {

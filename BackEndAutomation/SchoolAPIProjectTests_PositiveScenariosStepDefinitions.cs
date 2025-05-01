@@ -18,7 +18,7 @@ namespace BackEndAutomation.Tests.BBDTests
 
         private readonly ScenarioContext _scenarioContext;
         private ExtentTest _test;
-        private RestResponse userLoginResponse, createClassResponse;
+        private RestResponse userLoginResponse, createClassResponse, addStudentResponse;
         private List<double> numbers = new List<double>();
         private string response;
 
@@ -67,8 +67,7 @@ namespace BackEndAutomation.Tests.BBDTests
         {
 
             // create class via API call
-            string token = extractResponseData.ExtractLoggedInUserToken(userLoginResponse.Content);
-           // string[] subjects = { "Math", "English", "Literature" };
+           
             createClassResponse = restCalls.CreateClassCall("https://schoolprojectapi.onrender.com/", "Class1", subjects, (string)_scenarioContext["UserToken"]);
 
             // check that the response is 200 OK  -- in progress
@@ -93,13 +92,21 @@ namespace BackEndAutomation.Tests.BBDTests
         public void WhenAddStudentToClassAPICallWith(string studentName, string className) 
         {
             //  make the request first with Postman and then convert it to RestSharp
-            throw new PendingStepException();
+            addStudentResponse = restCalls.AddStudentCall("https://schoolprojectapi.onrender.com", "Ivan Petrov", "Class1", (string)_scenarioContext["UserToken"]);
         }
 
         [Then("student is added successfully")]
         public void ThenStudentIsAddedSuccessfully()
         {
-            throw new PendingStepException();
+            if (addStudentResponse.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                _test.Log(Status.Info, "The student is successfully added to the class: " + addStudentResponse.Content);
+            }
+            else
+            {
+                _test.Log(Status.Fail, "The student is not added to the class: " + addStudentResponse.Content);
+                Assert.Fail("The student is not added to the class: " + addStudentResponse.Content);
+            }
         }
 
         [When("add marks for student {string} in class {string} API call with {string}")]
